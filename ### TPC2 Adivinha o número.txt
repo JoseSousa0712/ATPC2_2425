@@ -1,0 +1,98 @@
+### TPC2: Adivinha o número
+- Crie um programa em Python para jogar o jogo "Adivinha o número":
+    - O jogo pode ter 2 modalidades: computador pensa num número (entre 0 e 100), utilizador tenta adivinhar; ou, o utilizador pensa num número (entre 0 e 100) e o computador tenta adivinhar;
+    - Quem tenta adivinhar responde com uma das afirmações: "Acertou", "O número que pensei é Maior" ou "O número que pensei é Menor";
+    - Uma vez descoberto o número o programa deverá terminar imprimindo o número de tentativas que quem adivinhou usou para chegar ao resultado.
+
+Aluno: José Carlos de Barros e Sousa - A5851
+
+
+RESOLUÇÃO
+
+1 - Computador pensa num número (entre 0 e 100), utilizador tenta adivinhar
+
+
+### Adivinha o num do PC
+
+import random
+
+min = 0
+max = 100
+resp = random.randint(min, max)
+
+
+### 	O módulo random é importado para gerar números aleatórios.
+	min = 0 e max = 100 definem o intervalo em que o número será sorteado.
+	random.randint(min, max) gera um número inteiro aleatório entre min e max (inclusive) e atribui o valor à variável resp.
+
+
+palp = int(input(f'O número está entre {min} e {max}. Qual é:\n'))
+
+
+###	Pedido um palpite que é convertido em um inteiro usando int() e armazenado na variável palp.
+
+
+num_tentativas = 1
+
+while palp != resp:
+    if palp < resp:
+        palp = int(input('O número que pensei é Maior. Tente novamente'))
+        num_tentativas += 1
+    if palp > resp:
+        palp = int(input('O número que pensei é Menor. Tente novamente'))
+        num_tentativas += 1
+print(f'Acertou, necessitou de {num_tentativas} tentativas!')
+
+
+### 	Vai registando número de tentativas e informando se número é maior ou menor comparativamente com número PC selecionou.
+	No final informa quantas tentativas foram necessárias.
+
+
+2 - Utilizador pensa num número (entre 0 e 100) e o computador tenta adivinhar
+
+
+### PC descobre num
+
+import random
+
+num_tentativas = 0
+min = 0
+max = 100
+
+retorna = False
+
+pc_adiv = random.randint(min, max)
+
+
+###	num_tentativas: Conta o número de palpites feitos pelo computador.
+	min e max: Definem o intervalo de valores possíveis (começa de 0 a 100).
+	retorna: Variável booleana que controla o laço while. O jogo continua enquanto for False.
+	pc_adiv: O primeiro palpite do computador é um número aleatório dentro do intervalo definido por min e max.
+
+
+while not retorna:
+    resp = input(f'Número {pc_adiv}. Correto (=), Grande (+) ou Pequeno (-)?')
+    if resp == '=':
+        num_tentativas += 1
+        print(f'Necessitou de {num_tentativas} tentativas!')
+        retorna = True
+    elif resp == '+':
+        max = pc_adiv - 1
+        pc_adiv = random.randint(min, max)
+        num_tentativas += 1
+    elif resp == '-':
+        min = pc_adiv + 1
+        pc_adiv = random.randint(min, max)
+        num_tentativas += 1
+    else:
+        print('Opção inválida')
+        resp = input(f'Número {pc_adiv}. Correto (=), Grande (+) ou Pequeno (-)?')
+
+
+###	A cada tentativa, o jogador informa se o número sugerido pelo computador é:
+	Correto (=): O computador acertou.
+	Grande  (+): O número pensado pelo usuário é menor.
+	Pequeno (-): O número pensado pelo usuário é maior.
+	Com base na resposta do usuário, o computador ajusta o intervalo de possibilidades (min e max) e faz um novo palpite. O processo se repete até que o computador acerte o número.
+	
+	Se o jogador digitar algo diferente de =, +, ou -, o programa exibe uma mensagem de erro e solicita novamente a resposta.
